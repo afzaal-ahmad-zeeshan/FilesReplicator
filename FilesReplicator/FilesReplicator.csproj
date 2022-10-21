@@ -11,8 +11,4 @@
     <EditorConfigFiles Remove="C:\Users\afzaa\source\repos\FilesReplicator\FilesReplicator\.editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="C:\Users\afzaa\source\repos\FilesReplicator\FilesReplicator\.editorconfig" />
-  </ItemGroup>
-
 </Project>

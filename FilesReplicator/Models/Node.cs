@@ -8,16 +8,28 @@ namespace FilesReplicator.Models
 {
     internal class Node
     {
-        public string Id { get; set; } = null!;
+        // Name is a templated string.
         public string Name { get; set; } = null!;
-        public bool IsDirectory { get; set; }
+
+        // Directories get the resources.
+        public bool IsDirectory { get; set; } = false;
 
         // The children for this node. Each child can be a directory or a file.
         public List<Node> Children { get; set; } = new List<Node>();
 
-        // The index for the children starts by zero, if set to true.
-        public bool IndexByZero { get; set; } = false;
+        public override string ToString()
+        {
+            // Use the builder for performance and memory optimization.
+            StringBuilder builder = new StringBuilder();
 
-        public string Separator { get; set; } = " - ";
+            // Is directory?
+            builder.Append(IsDirectory ? "+" : "-");
+            builder.Append(" ");
+
+            builder.Append(Name);
+
+            // Wrap up
+            return builder.ToString();
+        }
     }
 }

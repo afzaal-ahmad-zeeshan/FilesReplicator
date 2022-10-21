@@ -4,9 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FilesReplicator"
+        xmlns:self="clr-namespace:FilesReplicator.Models"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="FilesReplicator" Height="550" Width="900">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*" MinHeight="35" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="0.5*" MinHeight="50" />
+                <RowDefinition Height="2*" MinHeight="50" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0">Directory structure</TextBlock>
+            <TreeView x:Name="directoryTreeView" Grid.Row="1" Margin="10, 0, 10, 10" BorderThickness="0"
+                      SelectedItemChanged="directoryTreeView_SelectedItemChanged">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type self:Tree}" ItemsSource="{Binding Nodes}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding Nodes}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <Button 
+                    Margin="10" 
+                    Padding="5" 
+                    x:Name="selectFilesBtn"
+                    Click="selectFilesBtn_Click">Select files</Button>
+                <Button 
+                    Margin="10" 
+                    Padding="5" 
+                    x:Name="createDirectoryBtn"
+                    Click="createDirectoryBtn_Click">Create directory</Button>
+                <Button 
+                    Margin="10" 
+                    Padding="5" 
+                    x:Name="resetBtn"
+                    Click="resetBtn_Click">Reset</Button>
+                <Button 
+                    Margin="10" 
+                    Padding="5" 
+                    x:Name="whatsWrongBtn"
+                    Click="whatsWrongBtn_Click">What's wrong</Button>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Selected files</TextBlock>
+                </StackPanel>
+                <TextBlock x:Name="noSelectedFilesTextBlock">No files have been selected, yet.</TextBlock>
+                <ListView x:Name="selectedFilesListView"
+                          ItemTemplate="{StaticResource selectedFilesDataTemplate}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*" MinHeight="35"/>
+                <RowDefinition Height="6*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0">Geek structure</TextBlock>
+            <TextBox Padding="5" Margin="10, 0, 10, 10" Grid.Row="1"
+                     FontFamily="Consolas"
+                     AcceptsReturn="True"
+                     AcceptsTab="True" 
+                     HorizontalScrollBarVisibility="Auto"
+                     VerticalScrollBarVisibility="Auto"
+                     TextWrapping="NoWrap"
+                     x:Name="structureTextBox"
+                     TextChanged="structureTextBox_TextChanged"
+                />
+        </Grid>
     </Grid>
 </Window>

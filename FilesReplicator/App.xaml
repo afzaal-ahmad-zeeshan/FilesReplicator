@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:FilesReplicator"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style TargetType="{x:Type ListView}">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <DataTemplate x:Key="selectedFilesDataTemplate">
+
+        </DataTemplate>
     </Application.Resources>
 </Application>
