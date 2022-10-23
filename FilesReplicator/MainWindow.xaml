@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:FilesReplicator"
         xmlns:self="clr-namespace:FilesReplicator.Models"
         mc:Ignorable="d"
-        Title="FilesReplicator" Height="550" Width="900">
+        Title="FilesReplicator" Height="750" Width="1000">
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -19,14 +21,13 @@
                 <RowDefinition Height="0.5*" MinHeight="50" />
                 <RowDefinition Height="2*" MinHeight="50" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0">Directory structure</TextBlock>
-            <TreeView x:Name="directoryTreeView" Grid.Row="1" Margin="10, 0, 10, 10" BorderThickness="0"
-                      SelectedItemChanged="directoryTreeView_SelectedItemChanged">
+            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0" FontWeight="Bold">Directory structure</TextBlock>
+            <TreeView x:Name="directoryTreeView" Grid.Row="1" Margin="10, 0, 10, 10" BorderThickness="0" SelectedItemChanged="directoryTreeView_SelectedItemChanged">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type self:Tree}" ItemsSource="{Binding Nodes}">
                         <TextBlock Text="{Binding Name}" />
                     </HierarchicalDataTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding Nodes}">
+                    <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding Name}" />
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
@@ -60,11 +61,23 @@
             </StackPanel>
             <StackPanel Grid.Row="3" Margin="10">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock>Selected files</TextBlock>
+                    <TextBlock FontWeight="Bold">Selected files</TextBlock>
                 </StackPanel>
                 <TextBlock x:Name="noSelectedFilesTextBlock">No files have been selected, yet.</TextBlock>
-                <ListView x:Name="selectedFilesListView"
-                          ItemTemplate="{StaticResource selectedFilesDataTemplate}" />
+                <ListView x:Name="selectedFilesListView">
+                    <ListView.Resources>
+                        <DataTemplate DataType="{x:Type self:Resource}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*" MinWidth="300" />
+                                    <ColumnDefinition Width="0.1*" MinWidth="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding FileName}" Grid.Column="0" />
+                                <Button Grid.Column="1" Click="selectedFilesRemoveBtn_Click" Tag="{Binding FilePath}">Remove</Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.Resources>
+                </ListView>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
@@ -72,7 +85,7 @@
                 <RowDefinition Height="0.5*" MinHeight="35"/>
                 <RowDefinition Height="6*" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0">Geek structure</TextBlock>
+            <TextBlock Grid.Row="0" Margin="10, 10, 0, 0" FontWeight="Bold">Geek structure</TextBlock>
             <TextBox Padding="5" Margin="10, 0, 10, 10" Grid.Row="1"
                      FontFamily="Consolas"
                      AcceptsReturn="True"

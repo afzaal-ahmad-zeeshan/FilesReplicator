@@ -13,74 +13,67 @@ namespace FilesReplicator.Data
 {
     internal class Seed
     {
-        private int totalCalls;
-        private int _level;
-        private int maxLevel = 3;
+        public string GetStructure()
+        {
+            return File.ReadAllText("./Data/dummy.structure");
+        }
 
-        public Tree MakeTree()
+        public Tree MakeTwoLevelTree() 
         {
             var tree = new Tree();
 
             // Set the tree
-            tree.ParentDirectory = "./";
+            tree.ParentDirectory = "C:\\Users\\afzaa\\Downloads\\";
 
             // Prepare some children.
-            int count = 5;
+            var random = new Random();
+            int count = random.Next(3, 6);
             var children = new List<Node>();
             for (int i = 0; i < count; i++)
             {
-                var _node = _getNode(i, 1);
-
-                if (_node != null)
+                var node = new Node
                 {
-                    children.Add(_node);
+                    Name = "Directory " + random.Next(5000),
+                    IsDirectory = true,
+                };
+
+                // add children for each node
+                int _count = random.Next(5, 7);
+                var _children = new List<Node>();
+                for (int j = 0; j < _count; j++)
+                {
+                    var _node = new Node
+                    {
+                        Name = "Directory " + random.Next(5000),
+                        IsDirectory = true,
+                    };
+
+                    _children.Add(_node);
                 }
+
+                node.Children = _children;
+                children.Add(node);
             }
 
             tree.Nodes = children;
-            //MessageBox.Show($"_getNode was called {totalCalls} times.");
+
+            // pick random files
+            var resources = new List<Resource>();
+            resources.Add(new Resource
+            {
+                FilePath = "C:\\Users\\afzaa\\Downloads\\exercise-01.zip",
+                FileName = "exercise-01.zip",
+                HardcodedName = true,
+            });
+            resources.Add(new Resource
+            {
+                FilePath = "C:\\Users\\afzaa\\Downloads\\demo.zip",
+                FileName = "demo.zip",
+                HardcodedName = false,
+            });
+
+            tree.Resources = resources;
             return tree;
-        }
-
-        private Node _getNode(int index, int level)
-        {
-            if (level > maxLevel)
-            {
-                return null;
-            }
-
-            totalCalls++;
-            var random = new Random();
-            var node = new Node();
-            node.Name = $"Node {index}";
-
-            // randomize this
-            node.IsDirectory = random.Next(2) == 1; // Is directory if value is zero.
-
-            if (node.IsDirectory)
-            {
-                int _count = random.Next(5);
-                var children = new List<Node>();
-                // add child nodes
-                for (int j = 0; j < _count; j++)
-                {
-                    var _node = _getNode(j, level + 1);
-
-                    if (_node != null)
-                    {
-                        children.Add(_node);
-                    }
-                }
-
-                node.Children = children;
-            }
-
-            return node;
-        }
-
-        public string GetStructure()
-        {
-            return File.ReadAllText("./Data/dummy.structure");
         }
     }
 }

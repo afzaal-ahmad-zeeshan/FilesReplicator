@@ -1,7 +1,9 @@
 ﻿using FilesReplicator.Data;
 using FilesReplicator.Models;
+using FilesReplicator.Parser;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,22 +25,21 @@ namespace FilesReplicator
     public partial class MainWindow : Window
     {
         #region Dummy data
-        private List<Tree> d_tree = new List<Tree>();
-        private string d_content = "";
-
         private void loadTree()
         {
             // prepare the tree and load it.
-            d_tree.Add(new Seed().MakeTree());
+            tree.Add(new Seed().MakeTwoLevelTree());
 
             // parse the tree and write it in the textbox
-            d_content = Parser.StructureParser.ToText(d_tree[0]);
-            structureTextBox.Text = d_content;
+            //d_content = Parser.StructureParser.ToText(d_tree[0]);
+
+            content = Parser.StructureParser.ToText(tree[0]); 
+            structureTextBox.Text = content;
         }
         #endregion
 
-        private Tree tree;
-        private string content;
+        private ObservableCollection<Tree> tree = new ObservableCollection<Tree>();
+        private string content = "";
 
         public MainWindow()
         {
@@ -49,15 +50,35 @@ namespace FilesReplicator
 
 #if DEBUG
             loadTree();
-
-            // render
-            directoryTreeView.ItemsSource = d_tree;
 #endif
+            // render
+            renderTree();
+        }
+
+        private void renderTree()
+        {
+            // render
+            directoryTreeView.ItemsSource = tree;
+
+            // show the files
+            if (tree[0].Resources.Count > 0)
+            {
+                selectedFilesListView.ItemsSource = tree[0].Resources;
+                noSelectedFilesTextBlock.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                selectedFilesListView.ItemsSource = null;
+                noSelectedFilesTextBlock.Visibility = Visibility.Visible;
+            }
+        }
 
         private void structureTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //var updatedStructure = (sender as TextBox).Text;
+            //var updatedTree = StructureParser.FromYaml(updatedStructure);
 
+            //d_tree[0] = updatedTree;
         }
 
         private void directoryTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -70,9 +91,17 @@ namespace FilesReplicator
             // Is there something wrong with structure? Files? TreeView?
         }
 
+        private void resetTree()
+        {
+            structureTextBox.Text = String.Empty;
+            tree[0] = new Tree();
+            selectedFilesListView.ItemsSource = null;
+            noSelectedFilesTextBlock.Visibility = Visibility.Visible;
+        }
+
         private void resetBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Clear everything, and restart.
+            resetTree();
         }
 
         private void createDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -83,6 +112,12 @@ namespace FilesReplicator
         private void selectFilesBtn_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void selectedFilesRemoveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var filePath = ((Button)sender).Tag as string;
+            MessageBox.Show(filePath);
         }
     }
 }

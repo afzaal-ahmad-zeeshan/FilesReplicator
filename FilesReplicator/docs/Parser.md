@@ -14,10 +14,11 @@ to specify what the data corresponds to.
 
 The following characters are special and thus have a special meaning in the structure.
 
-* `~` - sets the parent directory.
-* `+` - means a directory.
-* `-` - means a file.
-* `*` - means a directory without the resources.
+* `~` - Sets the parent directory.
+* `+` - Means a directory. Each directory contains resources.
+* `-` - Means a hardcode named file.
+* `^` - Means a file that uses parent directory's name.
+* `@` - Comes before the resources group. The content after this character is for the resource list.
 
 > More items and structures to be added as the library grows.
 

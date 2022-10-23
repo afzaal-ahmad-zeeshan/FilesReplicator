@@ -8,10 +8,8 @@ namespace FilesReplicator.Models
 {
 internal class Resource
     {
-        public string Id { get; set; } = null!;
         public string FileName { get; set; } = null!;
         public string FilePath { get; set; } = null!;
-        public bool CanRename { get; set; } = true;
-        public bool HasParentNodeName { get; set; } = true; 
+        public bool HardcodedName { get; set; } = true;
     }
 }
