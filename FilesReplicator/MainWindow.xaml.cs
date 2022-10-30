@@ -2,6 +2,7 @@
 using FilesReplicator.Exceptions;
 using FilesReplicator.Models;
 using FilesReplicator.Parser;
+using FilesReplicator.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -173,6 +174,14 @@ namespace FilesReplicator
         private void replicateBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create the files.
+            try
+            {
+                Replicator.CreateDirectories(tree[0]);
+                MessageBox.Show("Created the directories in the parent directory " + tree[0].ParentDirectory);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

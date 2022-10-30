@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FilesReplicator"
         xmlns:self="clr-namespace:FilesReplicator.Models"
         mc:Ignorable="d"
-        Title="FilesReplicator" Height="750" Width="1000">
+        Title="FilesReplicator" Height="850" Width="1200">
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -18,8 +18,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5*" MinHeight="35" />
                 <RowDefinition Height="3*" />
-                <RowDefinition Height="0.5*" MinHeight="50" />
                 <RowDefinition Height="2*" MinHeight="50" />
+                <RowDefinition Height="0.5*" MinHeight="50" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10, 10, 0, 0" FontWeight="Bold">Directory structure</TextBlock>
             <TreeView x:Name="directoryTreeView" Grid.Row="1" Margin="10, 0, 10, 10" BorderThickness="0" SelectedItemChanged="directoryTreeView_SelectedItemChanged">
@@ -38,7 +38,7 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
-            <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" Grid.Row="3">
                 <Button 
                     Margin="10" 
                     Padding="5" 
@@ -65,7 +65,7 @@
                     x:Name="whatsWrongBtn"
                     Click="whatsWrongBtn_Click">What's wrong</Button>-->
             </StackPanel>
-            <StackPanel Grid.Row="3" Margin="10">
+            <StackPanel Grid.Row="2" Margin="10">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontWeight="Bold">Selected files</TextBlock>
                 </StackPanel>
