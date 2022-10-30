@@ -11,4 +11,13 @@
     <EditorConfigFiles Remove="C:\Users\afzaa\source\repos\FilesReplicator\FilesReplicator\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\dummy.structure">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\sapling.structure">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

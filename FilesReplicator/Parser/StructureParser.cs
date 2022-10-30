@@ -1,4 +1,5 @@
-﻿using FilesReplicator.Models;
+﻿using FilesReplicator.Exceptions;
+using FilesReplicator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,13 @@ internal class StructureParser
             {
                 indent = "";
                 // First-level nodes are always directories for directories.
-                builder.AppendLine($"{indent}+ {node.Name}");
+                builder.Append($"{indent}+ {node.Name}");
+
+                if (node.Children.Count > 0)
+                {
+                    builder.Append(" >");
+                }
+                builder.AppendLine();
 
                 // Second-level nodes are also directories and use the resources.
                 foreach (var child in node.Children)
@@ -44,9 +51,10 @@ internal class StructureParser
                     //    builder.AppendLine($"{indent}- {fileName}");
                     //}
                 }
-            }
 
-            builder.Append(Environment.NewLine);
+                // Close the children node by adding a new line.
+                builder.AppendLine();
+            }
 
             // put the resources here
             builder.AppendLine("@");
@@ -60,12 +68,114 @@ internal class StructureParser
             return builder.ToString();
         }
 
-
-
-        public Tree ParseStructure(string structure)
+        public static Tree ParseStructure(string structure)
         {
-            Tree tree = new Tree();
+            Tree tree = new Tree
+            {
+                Resources = new List<Resource>(),
+            };
+
             // Structure starts with the root directory
+            var lines = structure.Split(Environment.NewLine);
+
+            // process each line.
+            bool _resources = false; 
+            var resources = new List<Resource>();
+            for (var index = 0; index < lines.Count(); index++)
+            {
+                var line = lines[index].Trim();
+                // structure starts with ~
+                if (line.StartsWith("~"))
+                {
+                    tree.ParentDirectory = line.Substring(1).Trim();
+                } else if (line.StartsWith("+"))
+                {
+                    // Directory
+                    Node currentDirectory;
+                    bool hasChildren = line.EndsWith(">");
+                    var name = line.Substring(1).Trim();
+                    if (hasChildren)
+                    {
+                        name = name.Substring(0, name.Length - 2).Trim();
+                    }
+                    currentDirectory = new Node
+                    {
+                        Name = name,
+                        IsDirectory = true,
+                    };
+
+                    if (hasChildren)
+                    {
+                        currentDirectory.Children = new List<Node>();
+
+                        if (index == lines.Count() - 1)
+                        {
+                            throw new StructureException("");
+                        }
+                        line = lines[++index].Trim();
+                        while (line != "")
+                        {
+                            if (line.StartsWith("+"))
+                            {
+                                var node = new Node
+                                {
+                                    Name = line.Substring(1).Trim(),
+                                    IsDirectory = true,
+                                };
+                                currentDirectory.Children.Add(node);
+                            }
+
+                            if (index == lines.Count() - 1)
+                            {
+                                throw new StructureException("");
+                            }
+                            line = lines[++index].Trim();
+                        }
+                    }
+                    tree.Nodes.Add(currentDirectory);
+                } else if (line.StartsWith("@"))
+                {
+                    // The resources are starting.
+                    _resources = true;
+                } else if (line.StartsWith("-"))
+                {
+                    if (index == lines.Count() - 1)
+                    {
+                        throw new StructureException("");
+                    }
+                    // Resource with a fixed name
+                    var res = new Resource
+                    {
+                        FileName = line.Substring(1).Trim(),
+                        FilePath = lines[index + 1],
+                        HardcodedName = true,
+                    };
+
+                    // Increment the index
+                    index++;
+                    tree.Resources.Add(res);
+                } else if (line.StartsWith("^"))
+                {
+                    if (index == lines.Count() - 1)
+                    {
+                        throw new StructureException("");
+                    }
+                    // Resource with a parent's name.
+                    var res = new Resource
+                        {
+                        FileName = line.Substring(1).Trim(),
+                        FilePath = lines[index + 1],
+                        HardcodedName = false,
+                    };
+
+                    // Increment the index
+                    index++;
+                    tree.Resources.Add(res);
+                } else if (line == "" && !_resources)
+                {
+                    // Reading the first-level directories.
+                }
+            }
 
             return tree;
         }

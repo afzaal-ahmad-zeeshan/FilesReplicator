@@ -11,5 +11,11 @@ internal class Resource
         public string FileName { get; set; } = null!;
         public string FilePath { get; set; } = null!;
         public bool HardcodedName { get; set; } = true;
+
+        public override string ToString()
+        {
+            var label = HardcodedName ? "(Hardcoded)" : "(Not hardcoded)";
+            return $"{FileName} ({FilePath}) - {label}";
+        }
     }
 }

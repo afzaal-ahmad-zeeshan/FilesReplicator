@@ -19,6 +19,7 @@ The following characters are special and thus have a special meaning in the stru
 * `-` - Means a hardcode named file.
 * `^` - Means a file that uses parent directory's name.
 * `@` - Comes before the resources group. The content after this character is for the resource list.
+* A new line inside the directory means the children list is finished.
 
 > More items and structures to be added as the library grows.
 

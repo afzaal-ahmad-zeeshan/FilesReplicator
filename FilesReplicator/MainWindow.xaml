@@ -34,6 +34,7 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="True" />
+                        <Setter Property="Focusable" Value="false"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
@@ -41,23 +42,28 @@
                 <Button 
                     Margin="10" 
                     Padding="5" 
+                    x:Name="replicateBtn"
+                    Click="replicateBtn_Click">Replicate</Button>
+                <!--<Button 
+                    Margin="10" 
+                    Padding="5" 
                     x:Name="selectFilesBtn"
-                    Click="selectFilesBtn_Click">Select files</Button>
-                <Button 
+                    Click="selectFilesBtn_Click">Select files</Button>-->
+                <!--<Button 
                     Margin="10" 
                     Padding="5" 
                     x:Name="createDirectoryBtn"
-                    Click="createDirectoryBtn_Click">Create directory</Button>
+                    Click="createDirectoryBtn_Click">Create directory</Button>-->
                 <Button 
                     Margin="10" 
                     Padding="5" 
                     x:Name="resetBtn"
                     Click="resetBtn_Click">Reset</Button>
-                <Button 
+                <!--<Button 
                     Margin="10" 
                     Padding="5" 
                     x:Name="whatsWrongBtn"
-                    Click="whatsWrongBtn_Click">What's wrong</Button>
+                    Click="whatsWrongBtn_Click">What's wrong</Button>-->
             </StackPanel>
             <StackPanel Grid.Row="3" Margin="10">
                 <StackPanel Orientation="Horizontal">
@@ -72,8 +78,8 @@
                                     <ColumnDefinition Width="0.9*" MinWidth="300" />
                                     <ColumnDefinition Width="0.1*" MinWidth="100" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding FileName}" Grid.Column="0" />
-                                <Button Grid.Column="1" Click="selectedFilesRemoveBtn_Click" Tag="{Binding FilePath}">Remove</Button>
+                                <TextBlock Text="{Binding}" Grid.Column="0" />
+                                <!--<Button Grid.Column="1" Click="selectedFilesRemoveBtn_Click" Tag="{Binding FilePath}">Remove</Button>-->
                             </Grid>
                         </DataTemplate>
                     </ListView.Resources>

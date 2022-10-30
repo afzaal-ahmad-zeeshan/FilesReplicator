@@ -15,7 +15,12 @@ namespace FilesReplicator.Data
     {
         public string GetStructure()
         {
-            return File.ReadAllText("./Data/dummy.structure");
+            return File.ReadAllText("./Data/dummy.structure"); 
+        }
+
+        public string GetSapling()
+        {
+            return File.ReadAllText("./Data/sapling.structure");
         }
 
         public Tree MakeTwoLevelTree() 

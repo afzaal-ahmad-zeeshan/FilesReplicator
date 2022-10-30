@@ -1,0 +1,25 @@
+﻿~ C:\some\root\directory
++ Directory 1 >
+    + Child 1
+    + Child 2
+    + Directory 4192
+    + Directory 2347
+    + Directory 4946
+
++ Second directory >
+    + Folder 4
+    + Something else
+
++ You can go crazy >
+    + Directory 2684
+    + Directory 1133
+    + Directory 4052
+    + Directory 1188
+    + Directory 3788
+    + Directory 3434
+
+@
+- the-file_name.extension
+C:\file\path\the-file_name.extension
+^ another file.zip
+C:\The\complete\file\path.zip
