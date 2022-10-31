@@ -88,6 +88,9 @@ internal class StructureParser
                 if (line.StartsWith("~"))
                 {
                     tree.ParentDirectory = line.Substring(1).Trim();
+
+                    // set the name
+                    tree.Name = tree.ParentDirectory;
                 } else if (line.StartsWith("+"))
                 {
                     // Directory

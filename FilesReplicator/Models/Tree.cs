@@ -11,6 +11,7 @@ namespace FilesReplicator.Models
         public string ParentDirectory { get; set; } = string.Empty;
         public List<Node> Nodes { get; set; } = new List<Node>();
         public List<Resource> Resources { get; set; } = new List<Resource>();
+        public string Name { get; set; } = "Directory structure";
 
         // Properties
         public int Level { get; set; } = 0;
